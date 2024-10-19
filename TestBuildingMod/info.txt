@@ -1,0 +1,6 @@
+Name: Test Building
+ID: testBuildingMod
+Author: YourName
+Description: Adds the "Test" building that produces cookies.
+ModVersion: 1.0
+GameVersion: 2.052
