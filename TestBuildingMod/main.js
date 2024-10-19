@@ -2,7 +2,6 @@
 // Description: This is a custom building mod for Cookie Clicker.
 // Author: randomperson255
 // Version: 1.0
-// This mod adds a new building to Cookie Clicker that generates cookies.
 
 let buildingName = "Test Building";
 let buildingDescription = "Generates cookies at a steady rate.";
@@ -12,24 +11,26 @@ let buildingCount = 0; // Count of buildings owned
 
 // Function to add the new building to the game
 function addBuilding() {
-    Game.ObjectsById.push({
-        name: buildingName,
-        description: buildingDescription,
-        price: buildingCost,
-        baseCps: buildingProduction,
-        amount: buildingCount,
-        getCps: function() {
-            return this.baseCps * this.amount;
-        },
-        // Update the production based on the number of buildings owned
-        update: function() {
-            this.amount = Game.Objects[buildingName].amount;
-        }
-    });
+    if (!Game.Objects[buildingName]) {
+        Game.Objects[buildingName] = {
+            name: buildingName,
+            description: buildingDescription,
+            price: buildingCost,
+            baseCps: buildingProduction,
+            amount: buildingCount,
+            getCps: function() {
+                return this.baseCps * this.amount;
+            },
+            // Update the production based on the number of buildings owned
+            update: function() {
+                this.amount = Game.Objects[buildingName].amount;
+            }
+        };
+    }
 }
 
 // Register the building in the game
 addBuilding();
 
-// Optional: Log a message to the console for debugging
+// Log a message to the console for debugging
 console.log(`${buildingName} has been added to the game!`);
