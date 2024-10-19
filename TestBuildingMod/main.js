@@ -1,28 +1,35 @@
-Game.registerMod("testBuildingMod", {
-    init: function() {
-        // Define the new building's properties
-        var newBuilding = {
-            name: "Test",
-            desc: "This is a test building that produces cookies.",
-            basePrice: 500000, // Initial cost
-            cookiesPerSecond: 50, // Base production rate
-            icon: [22, 12], // Icon location in the spritesheet
+// Name: Test Building
+// Description: This is a custom building mod for Cookie Clicker.
+// Author: randomperson255
+// Version: 1.0
+// This mod adds a new building to Cookie Clicker that generates cookies.
 
-            // Function to calculate the production rate based on how many you own
-            productionRate: function() {
-                return this.amount * this.cookiesPerSecond;
-            }
-        };
+let buildingName = "Test Building";
+let buildingDescription = "Generates cookies at a steady rate.";
+let buildingCost = 100; // Cost in cookies
+let buildingProduction = 1; // Cookies produced per second
+let buildingCount = 0; // Count of buildings owned
 
-        // Add the new building to the game
-        Game.Objects['Test'] = new Game.Object('Test', newBuilding.desc, newBuilding.basePrice, newBuilding.productionRate);
+// Function to add the new building to the game
+function addBuilding() {
+    Game.ObjectsById.push({
+        name: buildingName,
+        description: buildingDescription,
+        price: buildingCost,
+        baseCps: buildingProduction,
+        amount: buildingCount,
+        getCps: function() {
+            return this.baseCps * this.amount;
+        },
+        // Update the production based on the number of buildings owned
+        update: function() {
+            this.amount = Game.Objects[buildingName].amount;
+        }
+    });
+}
 
-        // Push the new building to the list of buildings
-        Game.ObjectsById.push(Game.Objects['Test']);
+// Register the building in the game
+addBuilding();
 
-        // Refresh the store and update buildings to recognize the new one
-        Game.BuildingsOwned = Game.ObjectsById.length;
-        Game.UpdateBuildings();
-        Game.RefreshStore();
-    }
-});
+// Optional: Log a message to the console for debugging
+console.log(`${buildingName} has been added to the game!`);
